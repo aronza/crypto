@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: interview-assessment
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    tty: true
+    privileged: true
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    container_name: db
+    environment:
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: crypto
+    ports:
+      - '33060:3306'
+    expose:
+      - 3306
+    restart: unless-stopped
+    volumes:
+      - "./create-tables.sql:/docker-entrypoint-initdb.d/1.sql"
+    tty: true

@@ -1,0 +1,10 @@
+# These settings are synced to GitHub by https://probot.github.io/apps/settings/
+
+_extends: github-settings:.github/settings-software-engineering.yml
+
+repository:
+    
+  # A comma-separated list of topics to set on the repository
+  topics: software-engineering,etl
+
+# Need to add a file change to trigger updates made in base file
