@@ -4,6 +4,28 @@ Welcome to Progyny's Engineering technical assessment challenge! Please read the
 
 ## Instructions
 
+To run the application follow the steps below
+1. Run `make init` to spin up the docker container. Note you will automatically be "ssh'ed" into the main container.
+2. Run 'python app.py' to start the scheduler to run the application every hour
+
+## Future Work
+
+Potential technical improvements
+
+1. Check the database for price history before calling API
+2. Extend the application to collect historical prices for given currencies for given dates
+3. Develop a simulator using the historical prices collected in (2)
+
+Potential business logic improvements
+
+1. Introduce selling mechanism. (If price is x% above average start selling)
+2. Introduce day trading based on high-low range calculations
+3. Buy/Sell based on USD amount not coin amount
+4. Introduce percentile calculations instead of lower/higher than average
+5. Progressive amounts based on different moving windows. For example:
+   1. If price less than 50-Day average buy 10 coins
+   2. If price only less than 10-Day average buy 1 coin
+
 ### Overview
 
 Cryptocurrencies are on the rise, and we want to get in on the action. Let's build a bot that watches the prices of certain coins and their prices, and places trades for us when they hit certain levels. 
