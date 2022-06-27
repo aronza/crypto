@@ -13,7 +13,7 @@ from lib.util import setup_logger
 APP_ENV = environ.get("APP_ENV")
 load_dotenv(find_dotenv(filename=".env." + APP_ENV if APP_ENV else ".env", raise_error_if_not_found=True))
 setup_logger()
-db.connect_mysql()
+
 scheduler = BlockingScheduler()
 TOP_N_COINS = int(environ.get("APP_TOP_N_COINS", default=3))
 ORDER_AMOUNT = int(environ.get("APP_ORDER_AMOUNT", default=1))
@@ -43,7 +43,7 @@ def trade_coin(session, portfolio, coin_id, symbol, price):
         portfolio[coin_id].balance += ORDER_AMOUNT
         portfolio[coin_id].cost += ORDER_AMOUNT * price_filled
     else:
-        logging.info(f"Ignoring {symbol} as price {price} is higher or equal to average {moving_average}")
+        logging.info(f"Ignoring {symbol} as price {price} is higher than average {moving_average}")
 
 
 # If our portfolio includes coins, we didn't fetch the price for in the first API Call
@@ -63,8 +63,9 @@ def log_portfolio(portfolio, prices):
         logging.info(f"{coin.symbol.upper()}:\tOwned={balance}\tValue={value}\tGains/Loss={profit:.2f}%")
 
 
-@scheduler.scheduled_job('interval', hours=1)
+@scheduler.scheduled_job('interval', hours=1, misfire_grace_time=60*30)
 def check_coins():
+    db.connect_mysql()
     logging.info("Checking coin prices")
     with db.open_session() as session, session.begin():
         portfolio = {coin.id: coin for coin in session.query(db.Coin).all()}
