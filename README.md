@@ -6,7 +6,7 @@ Welcome to Progyny's Engineering technical assessment challenge! Please read the
 
 To run the application follow the steps below
 1. Run `make init` to spin up the docker container. Note you will automatically be "ssh'ed" into the main container.
-2. Run 'python app.py' to start the scheduler to run the application every hour
+2. Run `python app.py` to start the scheduler to run the application every hour
 
 ## Future Work
 
